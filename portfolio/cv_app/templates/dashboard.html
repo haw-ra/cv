@@ -16,9 +16,9 @@
 <body>
 
 <div class="container dashboard-container">
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-        <h2 class="text-primary m-0">لوحة التحكم (Dashboard)</h2>
-        <div>
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4 gap-3">
+        <h2 class="text-primary text-center text-md-start mb-0">لوحة التحكم (Dashboard)</h2>
+        <div class="d-flex flex-wrap justify-content-center gap-2 w-100 w-md-auto">
             <a href="{% url 'landing_page' %}" class="btn btn-outline-secondary">الرئيسية</a>
             <a href="{% url 'choose_template' %}" class="btn btn-warning shadow">🎨 تغيير القالب</a>
             <form method="POST" action="{% url 'logout' %}" class="d-inline">

@@ -64,6 +64,84 @@ html, body {
     }
 }
 
+/* === إصلاح شامل للموبايل (max-width: 768px) === */
+@media (max-width: 768px) {
+    /* جعل جميع الحقول بعرض 100% */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="url"],
+    input[type="tel"],
+    input[type="number"],
+    textarea,
+    select,
+    .form-control {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* تباعد بين الحقول */
+    .form-group,
+    .mb-3,
+    .mb-4 {
+        margin-bottom: 1rem !important;
+    }
+
+    /* إصلاح الحاويات الداخلية للنماذج */
+    .form-container {
+        padding: 20px !important;
+        margin: 20px auto !important;
+    }
+
+    /* منع تداخل الأزرار */
+    .d-flex.gap-2,
+    .d-flex.gap-3 {
+        gap: 0.75rem !important;
+    }
+
+    /* إجبار الأزرار المتجاورة على التصغير */
+    .btn-group-mobile,
+    .action-buttons .d-flex {
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+    }
+
+    /* إصلاح أي flexbox متعدد الأعمدة */
+    .row-cols-auto > *,
+    [class*="d-flex"][class*="justify-content"] {
+        flex-wrap: wrap !important;
+    }
+
+    /* جعل بطاقات القوالب تكدس عمودياً */
+    .template-card {
+        margin-bottom: 1rem !important;
+    }
+
+    /* منع تجاوز المحتوى */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* تحسين هوامش الحاوية */
+    .container {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+
+    /* إصلاح الـ item-list في لوحة التحكم */
+    .item-list {
+        flex-direction: column !important;
+        text-align: center !important;
+        gap: 0.5rem !important;
+    }
+    
+    .item-list .btn {
+        width: 100% !important;
+    }
+}
+
 /* طباعة الـ PDF */
 @media print {
     body { background-color: #fff !important; }

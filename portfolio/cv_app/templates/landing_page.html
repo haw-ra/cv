@@ -33,18 +33,18 @@
             <p class="hero-subtitle">قوالب معتمدة عالمياً، متوافقة مع أنظمة الفرز الآلي (ATS)، وبخطوات بسيطة جداً.</p>
             
             <!-- هذا الزر هو اللي راح ينقل الزبون لخطوات الإدخال -->
-           <!-- قسم الأزرار في صفحة الهبوط -->
-<div class="mt-4">
+           <!-- قسم الأزرار في صفحة الهبوط - معدل للموبايل -->
+<div class="mt-4 d-flex flex-column flex-md-row align-items-center justify-content-center gap-3">
     {% if user.is_authenticated %}
-        <a href="{% url 'cv_builder' %}" class="btn btn-light text-primary btn-start shadow mx-2">ابدأ الآن مجاناً</a>
-        <a href="{% url 'dashboard' %}" class="btn btn-outline-light btn-start shadow mx-2">لوحة التحكم</a>
-        <form method="POST" action="{% url 'logout' %}" class="d-inline">
+        <a href="{% url 'cv_builder' %}" class="btn btn-light text-primary btn-start shadow">ابدأ الآن مجاناً</a>
+        <a href="{% url 'dashboard' %}" class="btn btn-outline-light btn-start shadow">لوحة التحكم</a>
+        <form method="POST" action="{% url 'logout' %}" class="d-inline-block w-100 w-md-auto">
             {% csrf_token %}
-            <button type="submit" class="btn btn-outline-light btn-start shadow mx-2">تسجيل الخروج</button>
+            <button type="submit" class="btn btn-outline-light btn-start shadow w-100">تسجيل الخروج</button>
         </form>
     {% else %}
-        <a href="{% url 'login' %}" class="btn btn-light text-primary btn-start shadow mx-2">تسجيل الدخول</a>
-        <a href="{% url 'register' %}" class="btn btn-outline-light btn-start shadow mx-2">إنشاء حساب</a>
+        <a href="{% url 'login' %}" class="btn btn-light text-primary btn-start shadow">تسجيل الدخول</a>
+        <a href="{% url 'register' %}" class="btn btn-outline-light btn-start shadow">إنشاء حساب</a>
     {% endif %}
 </div>
         </div>
