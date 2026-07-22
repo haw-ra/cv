@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>لوحة التحكم</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Arial, sans-serif; }
+        .dashboard-container { max-width: 900px; margin: 40px auto; }
+        .card { border-radius: 15px; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: 0.3s; margin-bottom: 20px; }
+        .card:hover { box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
+        .item-list { border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .item-list:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    </style>
+</head>
+<body>
+
+<div class="container dashboard-container">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <h2 class="text-primary m-0">لوحة التحكم (Dashboard)</h2>
+        <div>
+            <a href="{% url 'landing_page' %}" class="btn btn-outline-secondary">الرئيسية</a>
+            <a href="{% url 'choose_template' %}" class="btn btn-warning shadow">🎨 تغيير القالب</a>
+            <form method="POST" action="{% url 'logout' %}" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger">تسجيل الخروج</button>
+            </form>
+        </div>
+    </div>
+    
+    {% if profile %}
+        <div class="alert alert-success">
+            مرحباً <strong>{{ profile.name }}</strong>! يمكنك إدارة سيرتك الذاتية بالكامل من هنا.
+        </div>
+
+        <div class="row">
+            <!-- كارت إدارة البيانات الأساسية -->
+            <div class="col-md-6">
+                <div class="card p-4 h-100">
+                    <h4 class="text-secondary mb-3">البيانات الأساسية</h4>
+                    <p class="text-muted">تحديث اسمك، المسمى الوظيفي، والنبذة المهنية.</p>
+                    <a href="{% url 'edit_profile' profile.id %}" class="btn btn-outline-primary mt-auto">تعديل البيانات</a>
+                </div>
+            </div>
+
+            <!-- كارت عرض السيرة النهائية -->
+            <div class="col-md-6">
+                <div class="card p-4 bg-primary text-white h-100">
+                    <h4 class="mb-3 text-white">معاينة السيرة الذاتية</h4>
+                    <p>شاهد النتيجة النهائية أو قم بتحميلها كملف PDF.</p>
+                    <a href="{% url 'home' %}" class="btn btn-light text-primary fw-bold mt-auto">عرض السيرة الذاتية</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم إدارة المهارات -->
+        <div class="card p-4 mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="text-secondary m-0">إدارة المهارات التقنية</h4>
+                <a href="{% url 'add_skill' profile.id %}" class="btn btn-sm btn-success">+ إضافة مهارة</a>
+            </div>
+            {% for skill in profile.skill_set.all %}
+                <div class="item-list">
+                    <span>{{ skill.skill_name }}</span>
+                    <a href="{% url 'delete_skill' skill.id %}" class="btn btn-sm btn-danger">حذف</a>
+                </div>
+            {% empty %}
+                <p class="text-muted">لم تقم بإضافة مهارات بعد.</p>
+            {% endfor %}
+        </div>
+
+        <!-- قسم إدارة التعليم -->
+        <div class="card p-4 mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="text-secondary m-0">إدارة التعليم</h4>
+                <a href="{% url 'add_education' profile.id %}" class="btn btn-sm btn-success">+ إضافة شهادة</a>
+            </div>
+            {% for edu in profile.education_set.all %}
+                <div class="item-list">
+                    <span>{{ edu.degree }} - {{ edu.university }}</span>
+                    <a href="{% url 'delete_education' edu.id %}" class="btn btn-sm btn-danger">حذف</a>
+                </div>
+            {% empty %}
+                <p class="text-muted">لم تقم بإضافة تعليم بعد.</p>
+            {% endfor %}
+        </div>
+
+    {% else %}
+        <div class="alert alert-warning">
+            لا يوجد حساب حالياً. <a href="{% url 'cv_builder' %}">اضغط هنا لإنشاء سيرة ذاتية جديدة.</a>
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>

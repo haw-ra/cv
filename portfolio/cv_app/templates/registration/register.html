@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب جديد</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #0d6efd, #0dcaf0); min-height: 100vh; display: flex; align-items: center; font-family: 'Segoe UI', Tahoma, Arial, sans-serif; }
+        .register-card { background: #fff; border-radius: 15px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
+        .register-title { color: #2c3e50; font-weight: bold; text-align: center; margin-bottom: 30px; }
+        .error-msg { color: #dc3545; font-size: 0.9rem; margin-bottom: 10px; }
+        .help-text { font-size: 0.8rem; color: #6c757d; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="register-card">
+            <h2 class="register-title">📝 إنشاء حساب جديد</h2>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                {% if form.errors %}
+                    <div class="error-msg">
+                        ❌ يرجى تصحيح الأخطاء التالية:
+                        <ul class="mb-0 mt-1">
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <div class="mb-3">
+                    <label class="form-label">اسم المستخدم</label>
+                    <input type="text" name="username" class="form-control form-control-lg" placeholder="اختر اسم مستخدم" required maxlength="150" autofocus>
+                    <div class="help-text">مطلوب. 150 حرفاً أو أقل. حروف وأرقام فقط.</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">كلمة المرور</label>
+                    <input type="password" name="password1" class="form-control form-control-lg" placeholder="أدخل كلمة المرور" required>
+                    <div class="help-text">يجب ألا تقل عن 8 أحرف، وألا تكون شائعة جداً.</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">تأكيد كلمة المرور</label>
+                    <input type="password" name="password2" class="form-control form-control-lg" placeholder="أعد إدخال كلمة المرور" required>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-lg w-100 mb-3">إنشاء الحساب 🚀</button>
+            </form>
+
+            <div class="text-center">
+                <p class="text-muted">لديك حساب بالفعل؟ <a href="{% url 'login' %}" class="text-primary fw-bold">تسجيل الدخول</a></p>
+                <a href="{% url 'landing_page' %}" class="btn btn-outline-secondary mt-2">العودة للرئيسية</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

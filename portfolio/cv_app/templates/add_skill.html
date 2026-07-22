@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>الخطوة 4: المهارات</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f0f2f5; font-family: 'Segoe UI', Tahoma, Arial, sans-serif; }
+        .form-container { max-width: 600px; margin: 50px auto; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .step-indicator { color: #6c757d; font-size: 0.9rem; margin-bottom: 20px; }
+        .skill-input { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="form-container">
+        <div class="text-center step-indicator">الخطوة 4 من 4</div>
+        <h2 class="text-center text-primary mb-4">أضف مهاراتك التقنية</h2>
+        
+        <form method="POST">
+            {% csrf_token %}
+            
+            <!-- الحاوية التي ستتجمع فيها مربعات المهارات -->
+            <div id="skills-container">
+                <div class="input-group mb-3 skill-input">
+                    <!-- لاحظي اسم الحقل skills[] الذي سيقرأه جانغو كقائمة -->
+                    <input type="text" name="skills[]" class="form-control" placeholder="اسم المهارة (مثلاً: Python, Django, Image Processing)" required>
+                </div>
+            </div>
+            
+            <!-- زر الجافاسكربت الديناميكي -->
+            <button type="button" id="add-skill-btn" class="btn btn-outline-primary mb-4 w-100 fw-bold">
+                + إضافة مهارة أخرى
+            </button>
+            
+            <button type="submit" class="btn btn-success w-100 fs-5 shadow-sm">حفظ وعرض السيرة الذاتية النهائي!</button>
+        </form>
+    </div>
+</div>
+
+<!-- سكريبت إضافة مربعات جديدة -->
+<script>
+    document.getElementById('add-skill-btn').addEventListener('click', function() {
+        // تحديد الحاوية
+        let container = document.getElementById('skills-container');
+        
+        // إنشاء مربع جديد مع زر حذف
+        let newField = document.createElement('div');
+        newField.className = 'input-group mb-3 skill-input';
+        newField.innerHTML = `
+            <input type="text" name="skills[]" class="form-control" placeholder="مهارة جديدة..." required>
+            <button type="button" class="btn btn-outline-danger" onclick="this.parentElement.remove()">حذف</button>
+        `;
+        
+        // إضافته للشاشة
+        container.appendChild(newField);
+    });
+</script>
+
+</body>
+</html>
