@@ -54,6 +54,7 @@ def cv_builder(request):
         if form.is_valid():
             profile = form.save(commit=False)
             profile.user = request.user
+            profile.cv_style = 'classic'
             profile.save()
             return redirect('add_education', profile_id=profile.id) 
     else:
@@ -109,7 +110,7 @@ def add_skill(request, profile_id):
 # دالة لوحة التحكم (Dashboard)
 @login_required
 def dashboard(request):
-    profile = Profile.objects.filter(user=request.user).first()
+    profile = Profile.objects.filter(user=request.user).last()
     return render(request, 'dashboard.html', {'profile': profile})
 
 # دالة تعديل البيانات الأساسية

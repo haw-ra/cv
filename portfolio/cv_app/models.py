@@ -19,7 +19,7 @@ class Profile(models.Model):
     
     # --- الحقول الجديدة ---
     phone_number = models.CharField(max_length=20, blank=True, null=True) # رقم الموبايل
-    website = models.URLField(blank=True, null=True) # رابط الموقع الخاص بالزبون
+    address = models.CharField(max_length=200, blank=True, null=True, verbose_name="عنوان السكن")
     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True) # الصورة الشخصية
     
     # حقل الستايل (مدمج ومصحح)

@@ -2,14 +2,15 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=900">
     <title>السيرة الذاتية - {{ profile.name }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body { background-color: #e9ecef; font-family: 'Segoe UI', Tahoma, Arial, sans-serif; }
         
         .cv-modern-container {
-            max-width: 950px;
+            width: 210mm;
+            min-height: 297mm;
             margin: 40px auto;
             background: #fff;
             display: flex;
@@ -95,7 +96,7 @@
                 <div class="contact-info">
                     <div>📧 {{ profile.email }}</div>
                     {% if profile.phone_number %}<div>📱 {{ profile.phone_number }}</div>{% endif %}
-                    {% if profile.website %}<div>🌐 <a href="{{ profile.website }}" target="_blank" style="color: #e94560;">الموقع الشخصي</a></div>{% endif %}
+                    {% if profile.address %}<div>🏠 {{ profile.address }}</div>{% endif %}
                     {% if profile.social_link %}<div>🔗 <a href="{{ profile.social_link }}" target="_blank" style="color: #e94560;">حسابي المهني</a></div>{% endif %}
                 </div>
 

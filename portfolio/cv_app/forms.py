@@ -5,7 +5,7 @@ from .models import Profile, Education, Experience, Skill
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['name', 'job_title', 'email', 'bio', 'social_link', 'phone_number', 'website', 'profile_picture']
+        fields = ['name', 'job_title', 'email', 'phone_number', 'address', 'profile_picture', 'bio', 'social_link']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'الاسم الكامل'}),
             'job_title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'المسمى الوظيفي (مثلاً: مطور برمجيات)'}),
@@ -13,7 +13,7 @@ class ProfileForm(forms.ModelForm):
             'bio': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'اكتب نبذة مختصرة عن مهاراتك وشغفك...'}),
             'social_link': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'رابط حسابك على LinkedIn أو GitHub'}),
             'phone_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'رقم الموبايل (اختياري)'}),
-            'website': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'الموقع (اختياري)'}),
+            'address': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'عنوان السكن (اختياري)'}),
             'cv_style': forms.Select(attrs={'class': 'form-control'}),
         }
 
