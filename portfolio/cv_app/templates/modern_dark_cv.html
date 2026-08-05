@@ -9,8 +9,8 @@
         body { background-color: #e9ecef; font-family: 'Segoe UI', Tahoma, Arial, sans-serif; }
         
         .cv-modern-container {
-            width: 210mm;
-            min-height: 297mm;
+            max-width: 950px;
+            width: 100%;
             margin: 40px auto;
             background: #fff;
             display: flex;
@@ -139,7 +139,7 @@
         <div class="cv-modern-container">
             <div class="sidebar">
                 {% if profile.profile_picture %}
-                    <img class="profile-photo" src="{{ profile.profile_picture.url }}" alt="صورة شخصية">
+                    <img class="profile-photo img-fluid" src="{{ profile.profile_picture.url }}" alt="صورة شخصية">
                 {% endif %}
 
                 <h3 class="sidebar-title">معلومات التواصل</h3>

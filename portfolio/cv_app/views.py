@@ -191,7 +191,7 @@ def download_cv_pdf(request, profile_id):
 
     # إنشاء استجابة PDF
     if WEASYPRINT_AVAILABLE:
-        pdf_file = HTML(string=html_string, base_url=request.build_absolute_uri('/')).write_pdf()
+        pdf_file = HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf()
         response = HttpResponse(pdf_file, content_type='application/pdf')
         response['Content-Disposition'] = f'attachment; filename="CV_{profile.name}.pdf"'
         return response
