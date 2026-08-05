@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=900">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>السيرة الذاتية - {{ profile.name }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -67,20 +67,70 @@
             .item-date { margin-top: 5px; }
         }
 
-        @media print {
+@media print {
             body { background-color: #fff; }
             .cv-modern-container { box-shadow: none; margin: 0; max-width: 100%; display: flex; flex-direction: row; }
             .sidebar { width: 35%; background-color: #1a1a2e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .main-content { width: 65%; }
-            .no-print { display: none !important; }
+            .no-print, .action-buttons { display: none !important; }
+
+            /* إصلاح تخطيط الـ PDF: استخدام جدول لتثبيت العمودين */
+            .cv-modern-container,
+            .sidebar,
+            .main-content,
+            .education-item,
+            .section-title,
+            .contact-info,
+            .d-flex,
+            .container {
+                display: block !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .cv-modern-container {
+                display: table !important;
+                table-layout: fixed !important;
+                width: 100% !important;
+            }
+
+            .sidebar,
+            .main-content {
+                display: table-cell !important;
+                vertical-align: top !important;
+                padding: 20px !important;
+            }
+
+            .sidebar { width: 35% !important; }
+            .main-content { width: 65% !important; }
+
+            .education-item {
+                margin-bottom: 1rem !important;
+            }
+
+            ul, li, p, h1, h2, h3 {
+                max-width: 100% !important;
+                overflow-wrap: break-word !important;
+                word-wrap: break-word !important;
+            }
+
+            img {
+                max-width: 100% !important;
+                height: auto !important;
+            }
+
+            a {
+                text-decoration: none !important;
+                color: inherit !important;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="action-buttons no-print d-flex flex-column flex-md-row justify-content-center gap-3 my-4">
-        <button onclick="window.print()" class="btn btn-dark btn-lg shadow">📥 تحميل (PDF)</button>
+<div class="action-buttons no-print d-flex flex-column flex-md-row justify-content-center gap-3 my-4">
+        <a href="{% url 'download_cv_pdf' profile.id %}" target="_blank" download class="btn btn-dark btn-lg shadow">📥 تحميل (PDF)</a>
         <a href="{% url 'choose_template' %}" class="btn btn-outline-danger btn-lg shadow">تغيير القالب</a>
         <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary btn-lg shadow">العودة للوحة التحكم</a>
     </div>

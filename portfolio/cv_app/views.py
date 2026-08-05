@@ -2,8 +2,18 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from django.http import HttpResponse
+from django.template.loader import render_to_string
 from .models import Profile, Education, Experience, Skill
 from .forms import ProfileForm, EducationForm, ExperienceForm, SkillForm
+
+# try to import weasyprint (يساعد على توليد PDF)
+try:
+    from weasyprint import HTML
+    WEASYPRINT_AVAILABLE = True
+except Exception:
+    # ImportError أو OSError (مثل غياب مكتبات GTK على ويندوز)
+    WEASYPRINT_AVAILABLE = False
 
 # دالة إنشاء حساب جديد
 def register(request):
@@ -160,3 +170,34 @@ def choose_template(request):
         return redirect('home') 
         
     return render(request, 'choose_template.html')
+
+
+# --- دالة تحميل السيرة الذاتية كـ PDF (WeasyPrint) ---
+@login_required
+def download_cv_pdf(request, profile_id):
+    profile = get_object_or_404(Profile, id=profile_id, user=request.user)
+
+    # --- اختيار القالب المناسب حسب النمط المحدد ---
+    if profile.cv_style == 'modern-dark':
+        template_name = 'modern_dark_cv.html'
+    elif profile.cv_style == 'creative-blue':
+        template_name = 'creative_blue_cv.html'
+    elif profile.cv_style == 'elegant':
+        template_name = 'elegant_cv.html'
+    else:
+        template_name = 'classic_cv.html'
+
+    html_string = render_to_string(template_name, {'profile': profile, 'request': request})
+
+    # إنشاء استجابة PDF
+    if WEASYPRINT_AVAILABLE:
+        pdf_file = HTML(string=html_string, base_url=request.build_absolute_uri('/')).write_pdf()
+        response = HttpResponse(pdf_file, content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="CV_{profile.name}.pdf"'
+        return response
+    else:
+        # إذا لم تكن weasyprint مثبتة، نعرض خطأ واضحاً
+        return HttpResponse(
+            "WeasyPrint غير مثبت. قم بتشغيل: pip install weasyprint",
+            status=500,
+        )

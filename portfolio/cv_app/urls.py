@@ -15,6 +15,7 @@ urlpatterns = [
     path('delete/education/<int:edu_id>/', views.delete_education, name='delete_education'),
     path('delete/experience/<int:exp_id>/', views.delete_experience, name='delete_experience'),
     path('delete/skill/<int:skill_id>/', views.delete_skill, name='delete_skill'),
-    path('choose-template/', views.choose_template, name='choose_template'),
+path('choose-template/', views.choose_template, name='choose_template'),
     path('register/', views.register, name='register'),  # صفحة إنشاء حساب جديد
+    path('cv/<int:profile_id>/download/', views.download_cv_pdf, name='download_cv_pdf'),
 ]
