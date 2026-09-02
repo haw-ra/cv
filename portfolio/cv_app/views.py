@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from .models import Profile, Education, Experience, Skill
 from .forms import ProfileForm, EducationForm, ExperienceForm, SkillForm
+from django.conf import settings
 
 # try to import weasyprint (يساعد على توليد PDF)
 try:
@@ -189,11 +190,22 @@ def download_cv_pdf(request, profile_id):
 
     html_string = render_to_string(template_name, {'profile': profile, 'request': request})
 
+    # --- التعديل السحري الخاص بـ PythonAnywhere ---
+    # 1. استبدال مسار مجلد media (المكان اللي تنحفظ بي صورة المستخدم)
+    local_media_path = f"file://{settings.BASE_DIR}/media/"
+    html_string = html_string.replace('/media/', local_media_path)
+    
+    # 2. استبدال مسار مجلد static (اذا عندج صور ثابتة او ملفات CSS)
+    local_static_path = f"file://{settings.BASE_DIR}/static/"
+    html_string = html_string.replace('/static/', local_static_path)
+    # ----------------------------------------------
+
     # إنشاء استجابة PDF
     if WEASYPRINT_AVAILABLE:
-        pdf_file = HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf()
+        # مسحنا الـ base_url لأن صار عندنا مسارات محلية بداخل الـ html_string
+        pdf_file = HTML(string=html_string).write_pdf()
         response = HttpResponse(pdf_file, content_type='application/pdf')
-        response['Content-Disposition'] = f'attachment; filename="CV_{profile.name}.pdf"'
+        response['Content-Disposition'] = f'attachment; filename="CV_{profile.user.username}.pdf"'
         return response
     else:
         # إذا لم تكن weasyprint مثبتة، نعرض خطأ واضحاً
