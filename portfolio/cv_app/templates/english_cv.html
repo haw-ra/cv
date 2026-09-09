@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=800">
+    <title>Resume - {{ profile.name }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #e9ecef; font-family: 'Arial', Helvetica, sans-serif; margin: 0; padding: 0; color: #222; }
+
+        /* الحاوية الرئيسية مع الشريط الأزرق على اليسار */
+        .cv-paper {
+            width: 800px;
+            max-width: 800px;
+            min-height: 1131px;
+            margin: 40px auto;
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+            /* الشريط الأزرق السحري */
+            border-left: 22px solid #7a9cc6; 
+            padding: 40px 50px 40px 30px;
+        }
+
+        /* --- الهيدر (الاسم، معلومات التواصل، والصورة) --- */
+        .header-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+        .header-left { vertical-align: top; }
+        .header-right { vertical-align: top; text-align: right; width: 140px; }
+        
+        .cv-name { font-size: 2.4rem; font-weight: bold; color: #111; margin-bottom: 15px; letter-spacing: -0.5px; }
+        
+        .contact-info { width: 100%; border-collapse: collapse; }
+        .contact-info td { padding-bottom: 6px; font-size: 0.85rem; vertical-align: middle; }
+        .contact-label { 
+            background-color: #333; 
+            color: #fff; 
+            font-size: 0.65rem; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            padding: 3px 6px; 
+            display: inline-block; 
+            width: 65px; 
+            text-align: center;
+        }
+        
+        /* الصورة بالأبيض والأسود مثل القالب الأصلي */
+        .profile-photo { 
+            width: 120px; 
+            height: 120px; 
+            object-fit: cover; 
+            filter: grayscale(100%); 
+            border: 1px solid #ccc;
+        }
+
+        /* --- الأقسام (الخطوط والعناوين) --- */
+        .section { margin-bottom: 25px; }
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #111;
+            text-transform: uppercase;
+            border-bottom: 1.5px solid #222;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        /* تنسيق الجداول للحماية في WeasyPrint */
+        .item-table { width: 100%; border-collapse: collapse; margin-bottom: 5px; }
+        .item-title-cell { font-weight: bold; font-size: 1rem; color: #111; }
+        .item-date-cell { text-align: right; font-size: 0.85rem; color: #444; white-space: nowrap; }
+        
+        .item-subtitle { font-weight: normal; color: #444; font-size: 0.95rem; margin-bottom: 5px; font-style: italic; }
+        .item-desc { font-size: 0.85rem; line-height: 1.6; color: #333; text-align: justify; white-space: pre-line; margin-bottom: 15px;}
+        
+        .skills-list { font-size: 0.9rem; line-height: 1.8; color: #333; padding-left: 20px; margin-top: 5px; }
+
+        .action-buttons { text-align: center; margin: 30px 0; }
+        
+        /* --- الموبايل --- */
+        @media (max-width: 768px) {
+            .action-buttons .d-flex { flex-direction: column !important; gap: 0.75rem !important; }
+            .action-buttons .btn { width: 100% !important; }
+        }
+
+        /* === كتلة طباعة PDF صارمة (WeasyPrint) === */
+        @page { size: A4; margin: 0; }
+        @media print {
+            .no-print { display: none !important; }
+            body { background-color: #fff !important; }
+            .cv-paper { 
+                width: 210mm !important; 
+                max-width: 210mm !important; 
+                min-height: 297mm !important; 
+                margin: 0 !important; 
+                box-shadow: none !important; 
+                border-left: 22px solid #7a9cc6 !important; 
+                -webkit-print-color-adjust: exact; 
+                print-color-adjust: exact;
+            }
+            .contact-label { background-color: #333 !important; color: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .section-title { border-bottom: 1.5px solid #222 !important; }
+            .profile-photo { width: 120px !important; height: 120px !important; filter: grayscale(100%) !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="action-buttons no-print d-flex flex-column flex-md-row justify-content-center gap-3 my-4">
+        <a href="{% url 'download_cv_pdf' profile.id %}" target="_blank" download class="btn btn-dark btn-lg shadow">📥 Download (PDF)</a>
+        <a href="{% url 'choose_template' %}" class="btn btn-outline-danger btn-lg shadow">Change Template</a>
+        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary btn-lg shadow">Dashboard</a>
+    </div>
+
+    {% if profile %}
+    <div class="table-responsive" style="overflow-x: auto; max-width: 100%; padding-bottom: 15px;">
+        <div class="cv-paper">
+            
+            <!-- الهيدر والصورة -->
+            <table class="header-table">
+                <tr>
+                    <td class="header-left">
+                        <div class="cv-name">{{ profile.name }}</div>
+                        <table class="contact-info">
+                            {% if profile.address %}
+                            <tr>
+                                <td><span class="contact-label">Address</span></td>
+                                <td>{{ profile.address }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if profile.phone_number %}
+                            <tr>
+                                <td><span class="contact-label">Phone</span></td>
+                                <td>{{ profile.phone_number }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr>
+                                <td><span class="contact-label">Email</span></td>
+                                <td>{{ profile.email }}</td>
+                            </tr>
+                            {% if profile.social_link %}
+                            <tr>
+                                <td><span class="contact-label">LinkedIn</span></td>
+                                <td><a href="{{ profile.social_link }}" target="_blank" style="color: #333; text-decoration: none;">{{ profile.social_link }}</a></td>
+                            </tr>
+                            {% endif %}
+                        </table>
+                    </td>
+                    <td class="header-right">
+                        {% if profile.profile_picture %}
+                            <img src="{{ profile.profile_picture.url }}" alt="Profile Photo" class="profile-photo">
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+
+            <!-- النبذة المهنية -->
+            <div class="section">
+                <div class="section-title">Professional Summary</div>
+                <div class="item-desc">{{ profile.bio }}</div>
+            </div>
+
+            <!-- الخبرات -->
+            <div class="section">
+                <div class="section-title">Work Experience</div>
+                {% for exp in profile.experience_set.all %}
+                    <table class="item-table">
+                        <tr>
+                            <td class="item-title-cell">{{ exp.job_role }}</td>
+                            <td class="item-date-cell">Present</td> <!-- يمكنك استبدالها بمتغير التاريخ إذا وجد -->
+                        </tr>
+                    </table>
+                    <div class="item-subtitle">{{ exp.company_or_project }}</div>
+                    <div class="item-desc">{{ exp.description }}</div>
+                {% empty %}
+                    <div class="item-desc text-muted">No experience added yet.</div>
+                {% endfor %}
+            </div>
+
+            <!-- التعليم -->
+            <div class="section">
+                <div class="section-title">Education</div>
+                {% for edu in profile.education_set.all %}
+                    <table class="item-table">
+                        <tr>
+                            <td class="item-title-cell">{{ edu.degree }}</td>
+                            <td class="item-date-cell">{{ edu.graduation_year }}</td>
+                        </tr>
+                    </table>
+                    <div class="item-subtitle">{{ edu.university }}</div>
+                    <div style="margin-bottom: 15px;"></div>
+                {% empty %}
+                    <div class="item-desc text-muted">No education added yet.</div>
+                {% endfor %}
+            </div>
+
+            <!-- المهارات -->
+            <div class="section">
+                <div class="section-title">Additional Skills</div>
+                <ul class="skills-list">
+                    {% for skill in profile.skill_set.all %}
+                        <li>{{ skill.skill_name }}</li>
+                    {% empty %}
+                        <li class="text-muted" style="list-style: none; margin-left: -20px;">No skills added yet.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>

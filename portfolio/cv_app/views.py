@@ -48,9 +48,12 @@ def home(request):
         template_name = 'creative_blue_cv.html'
     elif profile.cv_style == 'elegant': # السطر الجديد الخاص بالقالب الأنيق
         template_name = 'elegant_cv.html'
+    elif profile.cv_style == 'english': # 👈 إضافة السطر الخاص بالقالب الإنجليزي
+        template_name = 'english_cv.html'    
     else:
         # القالب الافتراضي إذا كان الاختيار غير محدد
         template_name = 'classic_cv.html' 
+        
     # ----------------------------------
 
     # نعرض الملف الذي تم اختياره
@@ -124,6 +127,7 @@ def dashboard(request):
     profile = Profile.objects.filter(user=request.user).last()
     return render(request, 'dashboard.html', {'profile': profile})
 
+
 # دالة تعديل البيانات الأساسية
 @login_required
 def edit_profile(request, profile_id):
@@ -133,11 +137,20 @@ def edit_profile(request, profile_id):
         form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
-            return redirect('dashboard') 
+            
+            # --- السحر هنا: فحص الزر المضغوط ---
+            if request.POST.get('save_action') == 'next':
+                # إذا ضغط "التالي"، نوديه لصفحة إضافة التعليم
+                return redirect('add_education', profile_id=profile.id) 
+            else:
+                # إذا ضغط "حفظ والعودة"، نرجعه للوحة التحكم
+                return redirect('dashboard') 
+            # -----------------------------------
     else:
         form = ProfileForm(instance=profile)
         
-    return render(request, 'cv_builder.html', {'form': form})
+    # التعديل الأهم: قمنا بتغيير الملف إلى edit_profile.html
+    return render(request, 'edit_profile.html', {'form': form, 'profile': profile})
 
 # --- دوال الحذف ---
 @login_required
@@ -185,6 +198,8 @@ def download_cv_pdf(request, profile_id):
         template_name = 'creative_blue_cv.html'
     elif profile.cv_style == 'elegant':
         template_name = 'elegant_cv.html'
+    elif profile.cv_style == 'english': # 👈 إضافة السطر الخاص بالقالب الإنجليزي هنا أيضاً
+        template_name = 'english_cv.html'    
     else:
         template_name = 'classic_cv.html'
 

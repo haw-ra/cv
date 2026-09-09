@@ -16,7 +16,7 @@
             color: #2c3e50; 
             font-weight: bold; 
             margin-top: 40px; 
-            margin-bottom: 30px; 
+            margin-bottom: 10px; 
             font-size: 2rem;
         }
         
@@ -50,12 +50,12 @@
             box-shadow: 0 0 15px rgba(13, 110, 253, 0.2);
         }
 
-        /* تنسيق صورة القالب (السحر هنا) */
+        /* تنسيق صورة القالب */
         .template-img {
             width: 100%;
-            height: 280px; /* طول ثابت يمنع التمدد */
-            object-fit: cover; /* يقص الصورة بشكل أنيق */
-            object-position: top; /* يعرض فقط الجزء العلوي (الاسم والنبذة) */
+            height: 280px; 
+            object-fit: cover; 
+            object-position: top; 
             border-radius: 8px;
             margin-bottom: 15px;
             border: 1px solid #eaeaea;
@@ -65,7 +65,7 @@
         /* تنسيقات خاصة بشاشات الموبايل فقط */
         @media (max-width: 768px) {
             .page-title { font-size: 1.5rem; margin-top: 20px; }
-            .template-img { height: 220px; } /* تصغير الصورة قليلاً لتناسب الموبايل */
+            .template-img { height: 220px; } 
             .template-card { margin-bottom: 10px; }
         }
     </style>
@@ -74,19 +74,20 @@
 
 <div class="container pb-5">
     <h2 class="text-center page-title">✨ اختر تصميم سيرتك الذاتية</h2>
+    <!-- ملاحظة لطيفة للمستخدمين -->
+    <p class="text-center text-muted mb-4">💡 ملاحظة: للحصول على أفضل نتيجة مع القالب الإنجليزي، يرجى التأكد من كتابة بياناتك باللغة الإنجليزية.</p>
     
     <form method="POST" action="">
         {% csrf_token %}
-        <!-- استخدام col-12 للموبايل و col-md-4 للديسكتوب -->
+        <!-- التعديل هنا: استخدام col-lg-3 لعرض 4 قوالب في صف واحد -->
         <div class="row justify-content-center">
             
-            <!-- القالب الكلاسيكي -->
-            <div class="col-12 col-md-4 mb-4">
+            <!-- 1. القالب الكلاسيكي -->
+            <div class="col-12 col-md-6 col-lg-3 mb-4">
                 <label class="w-100 h-100">
                     <input type="radio" name="cv_style" value="classic" class="template-radio" checked>
                     <div class="template-card">
                         <div>
-                            <!-- تم التعديل إلى .jpg هنا -->
                             <img src="{% static 'images/classic.jpg' %}" alt="كلاسيك" class="template-img img-fluid">
                             <h4 class="mt-2">كلاسيكي</h4>
                             <p class="text-muted mb-0" style="font-size: 0.9rem;">رسمي وبسيط للشركات</p>
@@ -95,13 +96,12 @@
                 </label>
             </div>
 
-            <!-- القالب العصري الداكن -->
-            <div class="col-12 col-md-4 mb-4">
+            <!-- 2. القالب العصري الداكن -->
+            <div class="col-12 col-md-6 col-lg-3 mb-4">
                 <label class="w-100 h-100">
                     <input type="radio" name="cv_style" value="modern-dark" class="template-radio">
                     <div class="template-card">
                         <div>
-                            <!-- تم التعديل إلى .jpg هنا -->
                             <img src="{% static 'images/modern.jpg' %}" alt="مودرن" class="template-img img-fluid">
                             <h4 class="mt-2">عصري (داكن)</h4>
                             <p class="text-muted mb-0" style="font-size: 0.9rem;">ألوان غامقة وجذابة</p>
@@ -110,16 +110,30 @@
                 </label>
             </div>
 
-            <!-- القالب الأنيق -->
-            <div class="col-12 col-md-4 mb-4">
+            <!-- 3. القالب الأنيق -->
+            <div class="col-12 col-md-6 col-lg-3 mb-4">
                 <label class="w-100 h-100">
                     <input type="radio" name="cv_style" value="elegant" class="template-radio">
                     <div class="template-card">
                         <div>
-                            <!-- تم التعديل إلى .jpg هنا -->
                             <img src="{% static 'images/elegant.jpg' %}" alt="أنيق" class="template-img img-fluid">
                             <h4 class="mt-2">أنيق ومقسم</h4>
                             <p class="text-muted mb-0" style="font-size: 0.9rem;">تصميم بعمودين (احترافي)</p>
+                        </div>
+                    </div>
+                </label>
+            </div>
+
+            <!-- 4. القالب الإنجليزي (الجديد) -->
+            <div class="col-12 col-md-6 col-lg-3 mb-4">
+                <label class="w-100 h-100">
+                    <input type="radio" name="cv_style" value="english" class="template-radio">
+                    <div class="template-card">
+                        <div>
+                            <!-- لا تنسين تحفظين لقطة الشاشة بهذا الاسم بالمجلد مالتج -->
+                            <img src="{% static 'images/english.jpg' %}" alt="إنجليزي" class="template-img img-fluid">
+                            <h4 class="mt-2">إنجليزي (English)</h4>
+                            <p class="text-muted mb-0" style="font-size: 0.9rem;">قياسي وعالمي (Standard)</p>
                         </div>
                     </div>
                 </label>

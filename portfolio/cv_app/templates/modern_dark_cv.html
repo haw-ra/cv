@@ -2,32 +2,41 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=800">
     <title>السيرة الذاتية - {{ profile.name }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background-color: #e9ecef; font-family: 'Segoe UI', Tahoma, Arial, sans-serif; }
+        body { background-color: #e9ecef; font-family: 'Segoe UI', Tahoma, Arial, sans-serif; margin: 0; padding: 0; }
 
-        /* حاوية A4 ثابتة لا تنكسر على الموبايل */
+        /* حاوية A4 ثابتة بطول قياسي وتتمدد */
         .cv-modern-container {
-            width: 800px;
-            max-width: 800px;
-            margin: 40px auto;
-            background: #fff;
-            display: flex;
-            flex-direction: row;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            border-radius: 10px;
-            overflow: hidden;
+            width: 800px; 
+            max-width: 800px; 
+            min-height: 1131px; 
+            margin: 40px auto; 
+            background: #fff; 
+            display: flex; 
+            flex-direction: row; 
+            align-items: stretch;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+            border-radius: 10px; 
+            overflow: hidden; 
+            box-sizing: border-box;
         }
 
-        .sidebar { width: 35%; background-color: #1a1a2e; color: #fff; padding: 40px 25px; }
-        .main-content { width: 65%; background-color: #fcfcfc; padding: 40px 35px; color: #333; }
-
-        .profile-photo {
-            width: 140px; height: 140px; border-radius: 50%; object-fit: cover;
-            border: 4px solid #e94560; margin: 0 auto 20px; display: block;
+        .sidebar { 
+            width: 35%; 
+            background-color: #1a1a2e; 
+            color: #fff; 
+            padding: 40px 25px; 
+            box-sizing: border-box; 
+            display: flex; 
+            flex-direction: column; 
         }
+
+        .main-content { width: 65%; background-color: #fcfcfc; padding: 40px 35px; color: #333; box-sizing: border-box; }
+
+        .profile-photo { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; border: 4px solid #e94560; margin: 0 auto 20px; display: block; }
 
         .contact-info { font-size: 0.9rem; margin-bottom: 30px; line-height: 1.8; color: #d1d1d1; text-align: right; }
         .sidebar-title { color: #e94560; font-weight: bold; border-bottom: 2px solid #e94560; padding-bottom: 5px; margin-bottom: 15px; font-size: 1.2rem; }
@@ -36,17 +45,7 @@
 
         .cv-name { color: #16213e; font-weight: 900; font-size: 2.8rem; margin-bottom: 5px; text-align: right; }
 
-        /* التعديل السحري للكلمة الإنجليزية هنا */
-        .job-title {
-            color: #e94560;
-            font-size: 1.25rem;
-            font-weight: bold;
-            margin-bottom: 25px;
-            text-transform: uppercase;
-            text-align: right;
-            display: block;
-            width: 100%;
-        }
+        .job-title { color: #e94560; font-size: 1.25rem; font-weight: bold; margin-bottom: 25px; text-transform: uppercase; text-align: right; display: block; width: 100%; }
 
         .section-title { color: #16213e; font-weight: bold; font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px; display: flex; align-items: center; }
         .section-title::after { content: ""; flex: 1; height: 2px; background: #eee; margin-right: 15px; }
@@ -55,17 +54,10 @@
         .item-subtitle { color: #e94560; font-size: 0.95rem; margin-bottom: 8px; font-style: italic; }
         .item-desc { font-size: 0.95rem; line-height: 1.6; color: #555; }
 
-        .education-item { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
         .item-date { background: #1a1a2e; color: #fff; padding: 3px 10px; border-radius: 15px; font-size: 0.85rem; font-weight: bold; }
-
         .action-buttons { text-align: center; margin: 30px 0; }
 
-        /* تحسينات الموبايل - مع إبقاء عمودي الـ CV ثابتين */
         @media (max-width: 768px) {
-            .sidebar { text-align: center; }
-            .contact-info { text-align: center; }
-            .education-item { flex-direction: column; }
-            .item-date { margin-top: 5px; }
             .action-buttons .d-flex { flex-direction: column !important; gap: 0.75rem !important; }
             .action-buttons .btn { width: 100% !important; }
         }
@@ -75,9 +67,17 @@
         @media print {
             .no-print { display: none !important; }
             body { background-color: #fff !important; }
-            .cv-modern-container { width: 210mm !important; max-width: 210mm !important; margin: 0 !important; box-shadow: none !important; border-radius: 0 !important; display: flex !important; flex-direction: row !important; }
-            .sidebar { width: 35% !important; background-color: #1a1a2e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            .main-content { width: 65% !important; }
+            .cv-modern-container { 
+                width: 210mm !important; 
+                max-width: 210mm !important; 
+                min-height: 297mm !important; 
+                margin: 0 !important; 
+                box-shadow: none !important; 
+                border-radius: 0 !important; 
+                display: block !important; 
+            }
+            .sidebar { width: 35% !important; float: right !important; background-color: #1a1a2e !important; min-height: 297mm; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .main-content { width: 65% !important; float: right !important; min-height: 297mm; }
             .table-responsive { overflow: visible !important; }
             .profile-photo { width: 120px !important; height: 120px !important; }
         }
@@ -86,7 +86,6 @@
 <body>
 
 <div class="container">
-    <!-- الأزرار خارج الغلاف القابل للتمرير وستُخفى عند الطباعة -->
     <div class="action-buttons no-print d-flex flex-column flex-md-row justify-content-center gap-3 my-4">
         <a href="{% url 'download_cv_pdf' profile.id %}" target="_blank" download class="btn btn-dark btn-lg shadow">📥 تحميل (PDF)</a>
         <a href="{% url 'choose_template' %}" class="btn btn-outline-danger btn-lg shadow">تغيير القالب</a>
@@ -94,7 +93,6 @@
     </div>
 
     {% if profile %}
-    <!-- غلاف قابل للتمرير أفقياً على الموبايل مع الحفاظ على تخطيط A4 -->
     <div class="table-responsive" style="overflow-x: auto; max-width: 100%; padding-bottom: 15px;">
         <div class="cv-modern-container">
             <div class="sidebar">
@@ -140,14 +138,17 @@
 
                 <h3 class="section-title">التعليم (Education)</h3>
                 {% for edu in profile.education_set.all %}
-                    <div class="education-item">
-                        <div>
-                            <div class="item-title">{{ edu.degree }}</div>
-                            <div class="item-subtitle" style="color: #666;">{{ edu.university }}</div>
-                        </div>
-                        <!-- تمت إضافة كلمة سنة التخرج هنا -->
-                        <div class="item-date">سنة التخرج: {{ edu.graduation_year }}</div>
-                    </div>
+                    <table style="width: 100%; margin-bottom: 15px; border-collapse: collapse; border: none; table-layout: fixed;">
+                        <tr>
+                            <td style="text-align: right; vertical-align: top; padding: 0; width: 70%;">
+                                <div class="item-title">{{ edu.degree }}</div>
+                                <div class="item-subtitle" style="color: #666;">{{ edu.university }}</div>
+                            </td>
+                            <td style="text-align: left; vertical-align: top; padding: 0; width: 30%; white-space: nowrap;">
+                                <div class="item-date">سنة التخرج: {{ edu.graduation_year }}</div>
+                            </td>
+                        </tr>
+                    </table>
                 {% empty %}
                     <p class="text-muted">لم يتم إضافة معلومات تعليمية بعد.</p>
                 {% endfor %}
