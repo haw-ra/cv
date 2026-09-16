@@ -90,7 +90,16 @@ def add_education(request, profile_id):
         form = EducationForm()
     return render(request, 'add_education.html', {'form': form, 'profile': profile})
 
+
+
+
+
 # الخطوة 3: إضافة الخبرات والمشاريع
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .forms import ExperienceForm
+from .models import Profile
+
 @login_required
 def add_experience(request, profile_id):
     profile = get_object_or_404(Profile, id=profile_id, user=request.user)
@@ -100,10 +109,16 @@ def add_experience(request, profile_id):
             experience = form.save(commit=False)
             experience.profile = profile
             experience.save()
-            return redirect('add_skill', profile_id=profile.id) 
+            
+            # فحص الزر المضغوط
+            if request.POST.get('save_action') == 'add_another':
+                return redirect('add_experience', profile_id=profile.id) 
+            else:
+                return redirect('add_skill', profile_id=profile.id) 
     else:
         form = ExperienceForm()
     return render(request, 'add_experience.html', {'form': form, 'profile': profile})
+
 
 # الخطوة 4: إضافة المهارات المتعددة
 @login_required

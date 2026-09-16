@@ -28,39 +28,37 @@
         <form method="POST">
             {% csrf_token %}
             
-            <!-- الحاوية التي ستتجمع فيها مربعات المهارات -->
             <div id="skills-container">
                 <div class="input-group mb-3 skill-input">
-                    <!-- لاحظي اسم الحقل skills[] الذي سيقرأه جانغو كقائمة -->
                     <input type="text" name="skills[]" class="form-control" placeholder="اسم المهارة (مثلاً: Python, Django, Image Processing)" required>
                 </div>
             </div>
             
-            <!-- زر الجافاسكربت الديناميكي -->
             <button type="button" id="add-skill-btn" class="btn btn-outline-primary mb-4 w-100 fw-bold">
                 + إضافة مهارة أخرى
             </button>
             
-            <button type="submit" class="btn btn-success w-100 fs-5 shadow-sm">حفظ وعرض السيرة الذاتية النهائي!</button>
+            <div class="d-flex flex-column flex-md-row justify-content-between gap-2 mt-4">
+                <button type="submit" class="btn btn-success btn-lg flex-grow-1 shadow-sm">
+                    حفظ وإنهاء 💾
+                </button>
+                <a href="{% url 'dashboard' %}" class="btn btn-outline-dark btn-lg shadow-sm">
+                    لوحة التحكم 🏠
+                </a>
+            </div>
         </form>
     </div>
 </div>
 
-<!-- سكريبت إضافة مربعات جديدة -->
 <script>
     document.getElementById('add-skill-btn').addEventListener('click', function() {
-        // تحديد الحاوية
         let container = document.getElementById('skills-container');
-        
-        // إنشاء مربع جديد مع زر حذف
         let newField = document.createElement('div');
         newField.className = 'input-group mb-3 skill-input';
         newField.innerHTML = `
             <input type="text" name="skills[]" class="form-control" placeholder="مهارة جديدة..." required>
             <button type="button" class="btn btn-outline-danger" onclick="this.parentElement.remove()">حذف</button>
         `;
-        
-        // إضافته للشاشة
         container.appendChild(newField);
     });
 </script>

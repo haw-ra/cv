@@ -30,7 +30,24 @@
             {% csrf_token %}
             {{ form.as_p }}
             
-            <button type="submit" class="btn btn-primary w-100 mt-4 fs-5">حفظ والانتقال للمهارات</button>
+            <div class="d-flex flex-column flex-md-row justify-content-between gap-2 mt-4">
+                <button type="submit" name="save_action" value="add_another" class="btn btn-secondary shadow-sm flex-grow-1">
+                    حفظ وإضافة آخر ➕
+                </button>
+                <button type="submit" name="save_action" value="next" class="btn btn-primary shadow-sm flex-grow-1">
+                    حفظ والانتقال للمهارات 💾
+                </button>
+            </div>
+            
+            <div class="d-flex flex-column flex-md-row justify-content-center gap-2 mt-2">
+                <a href="{% url 'add_skill' profile.id %}" class="btn btn-outline-secondary shadow-sm flex-grow-1">
+                    تخطي للمهارات ⏭️
+                </a>
+                <a href="{% url 'dashboard' %}" class="btn btn-outline-dark shadow-sm flex-grow-1">
+                    لوحة التحكم 🏠
+                </a>
+            </div>
+            
         </form>
     </div>
 </div>
